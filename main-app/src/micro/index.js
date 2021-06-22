@@ -1,9 +1,14 @@
-import { registerMicroApps, start, initGlobalState } from 'qiankun';
-import apps from './apps';
-import store from '../store';
+import { registerMicroApps, start } from 'qiankun';
+import NProgress from 'nprogress';
+import getApps  from './apps';
 
-registerMicroApps(apps);
-export const MicroAppStateActions = initGlobalState({});
-MicroAppStateActions.setGlobalState(store.state);
+registerMicroApps(getApps(), {
+  beforeLoad() {
+    NProgress.start();
+  },
+  afterMount() {
+    NProgress.done();
+  },
+});
 
 export default start;

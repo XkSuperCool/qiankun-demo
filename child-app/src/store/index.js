@@ -5,11 +5,11 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    mainState: {},
+    mainStore: {},
   },
   mutations: {
-    SET_MAIN_STATE(state, data) {
-      state.mainState = data;
+    SET_MAIN_STORE(state, data) {
+      state.mainStore = data;
     },
   },
   actions: {

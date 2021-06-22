@@ -8,5 +8,9 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "element-ui": "^2.15.2",
+    "nprogress": "^0.2.0"
+  }
 }

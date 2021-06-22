@@ -1,12 +1,16 @@
+/* eslint-disable */
 import Vue from 'vue';
+import ElementUI from 'common/node_modules/element-ui';
 import VueRouter from 'vue-router';
 import App from './App.vue';
 import store from './store';
-import routes from './router';
+import { beforeEach, generatorRoutes } from './router';
 
 import './public-path';
+import 'common/node_modules/element-ui/lib/theme-chalk/index.css';
 
 Vue.use(VueRouter);
+Vue.use(ElementUI);
 
 Vue.config.productionTip = false;
 
@@ -20,18 +24,19 @@ let instance = null;
 // eslint-disable-next-line no-underscore-dangle
 const isNotQiankun = !window.__POWERED_BY_QIANKUN__;
 function render(props = {}) {
-  store.commit('SET_MAIN_STATE', props.mainState || {});
-  const { container } = props;
+  store.commit('SET_MAIN_STORE', props.mainStore || {});
+  const { container, routerList, routerBase } = props;
+
+  // 根据 routerList 动态生成 routes, 在父子应用一起运行的状态下它是有父应用来控制的，添加上用户拥有权限的页面
+  // 在子应用单独运行的状态下，它是一个基本的路由列表如（登录、404、401等）.
+  // 父子应用一起运行时,子应用是没有这些基础路由的,这些基础路由由父应用来控制.
   router = new VueRouter({
     // eslint-disable-next-line no-underscore-dangle
     mode: 'hash',
-    routes,
+    routes: generatorRoutes(routerBase, routerList),
   });
-  router.addRoute('micro', {
-    path: 'about',
-    name: 'About',
-    component: () => import('./views/About.vue'),
-  });
+  router.beforeEach = beforeEach;
+
   instance = new Vue({
     router,
     store,
@@ -51,7 +56,13 @@ function render(props = {}) {
 // false 则说明，该子应用是独立运行的
 // 独立运行的子应用会进入这个判断，然后走 render 方法, 运行在主应用中的子应用则会走 mount 回调，然后调用 render
 if (isNotQiankun) {
-  render();
+  /**
+   * 当子应用单独运行时，需要在这里传递默认 routerList 配置，
+   * 比如: 登录页、404、401 等。
+   * 之后在登录后，跳转页面时，在 router.forEach 中去添加其他 router
+   */
+  const props = {};
+  render(props);
 }
 
 export async function bootstrap() {

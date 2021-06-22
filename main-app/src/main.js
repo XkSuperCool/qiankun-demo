@@ -5,6 +5,7 @@ import store from './store';
 import startQiankun from './micro';
 
 import '@/assets/global.css';
+import 'nprogress/nprogress.css';
 
 startQiankun();
 

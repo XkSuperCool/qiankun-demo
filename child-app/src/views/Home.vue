@@ -1,24 +1,28 @@
 <template>
-  <div class='home'>
-    ChildHome ----> {{$store.state.mainState.state.user}}
+  <el-card class='home'>
+    ChildHome ---> {{sum}} ----> {{$store.state.mainStore.state.user}}
     <router-link to='about'>about</router-link>
-    <button @click='handleChangeUser'>切换用户</button>
-  </div>
+    <el-button @click='handleChangeUser'>切换用户</el-button>
+  </el-card>
 </template>
 
 <script>
-// eslint-disable-next-line import/no-unresolved
 import { add } from 'common';
 
 export default {
   name: 'ChildHome',
+  data() {
+    return {
+      sum: 0,
+    };
+  },
   methods: {
     handleChangeUser() {
-      this.$store.state.mainState.commit('SET_USER', 'XiaoZhao');
+      this.$store.state.mainStore.commit('SET_USER', 'XiaoZhao');
     },
   },
   mounted() {
-    console.log(add(10, 20));
+    this.sum = add(10, 20);
   },
 };
 </script>

@@ -28,7 +28,7 @@ export default {
         {
           key: 'ChildHome',
           title: '子应用首页',
-          path: '/micro',
+          path: '/micro/childApp/home',
         },
       ],
     };
@@ -71,6 +71,8 @@ export default {
   }
 
   .content {
+    width: 0;
+    flex: 1;
     padding: 10px;
     box-sizing: border-box;
   }

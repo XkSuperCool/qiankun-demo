@@ -1,0 +1,3 @@
+在 common 中存储 menu 数据
+子应用单独运行时获取 common 中的 menu 数据，通过 addRoute 添加路由
+一起运行时由主应用来管理路由，
